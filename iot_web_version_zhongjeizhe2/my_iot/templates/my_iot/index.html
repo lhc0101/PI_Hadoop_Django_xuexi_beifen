@@ -1,0 +1,86 @@
+<html>
+{% load static %}
+{% load staticfiles %}
+<head>
+    <script src="{% static 'javascripts/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'javascripts/bootstrap-3.3.7.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/bootstrap-3.3.7.min.css' %}">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var i = 0;
+            var timer = null;
+            $(".btn-success").click(function(){
+                $.get('/data?get=on', function(){
+                    $("#counter").html('已开始');
+                    timer = setInterval(function(){
+                        $.get('/data?recv', function(data){
+                            var result = JSON.parse(data);
+                            $("#s").html("当前土壤湿度：" + result['s'] + " (1为缺水，0为正常）");
+                            $("#g").html("当前光照：" + result['g'] + "（1为缺光，0为光照充足）");
+                            $("#t").html("当前温度：" + result['t'] + " ℃");
+                            $("#h").html("当前湿度：" + result['h'] + " RH ");
+                        });
+                    }, 1000);
+                })
+            });
+            $(".btn-danger").click(function(){
+                $.get('/data?get=off', function(){
+                    $("#counter").html('已关闭');
+                    clearInterval(timer);
+                })
+            });
+        });
+
+
+
+
+
+
+    </script>
+</head>
+<body style="background-image: url({% static 'b1.jpg' %});background-size:100% 125%;"></body>
+<body></body>
+<div class="col-md-6" role="main">
+    <div class="col-md-offset-3">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>植物保姆系统</h1>
+                <p class="col-md-offset-3">Plant Nanny System</p>
+                <p style="color:green;">植物保姆让你种植快乐与健康，可爱的植物将会每天与你的健康一同成长</p>
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item"><h2 id="s">*当前土壤湿度：{{ s }}</h2></li>
+            <li class="list-group-item"><h2 id="g">*当前土壤光照：{{ g }}</h2></li>
+            <li class="list-group-item"><h2 id="t">*当前温度：{{ t }}</h2></li>
+            <li class="list-group-item"><h2 id="h">*当前湿度：{{ h }}</h2></li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="col-md-6" role="complementary">
+    <div class="col-md-offset-3">
+        <body>
+        <div class="body-main">
+            <h2 id="counter"></h2>
+            <h1 style="color:white;">当前植物状态图表：</h1><br/><br/><br/><br/>
+        </div>
+        </body>
+        <body><img style="-webkit-user-select: none;" src="http://xchcloud.f3322.net:8081/"></body>
+        <div>
+            <h2 style="color:black;">开始浇水吧</h2><br/>
+            </h1>
+            <div>
+                <button class="btn btn-success">开始工作，打开指示灯</button>
+                <button class="btn btn-danger">停止工作，打开指示灯</button>
+            </div>
+        </div>
+        <div class="col-md-offset-3">
+            <br/><br/><br/><br/><br/><h2><a href="/detail">浇花小贴士</a></h2>
+        </div>
+    </div>
+</div>
+</html>

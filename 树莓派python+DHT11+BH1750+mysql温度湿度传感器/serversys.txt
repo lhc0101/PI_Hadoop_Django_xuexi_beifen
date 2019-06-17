@@ -1,0 +1,16 @@
+设置python脚本开机启动
+
+保存脚本为/etc/init.d/serversys文件
+pi@ras-B20170624:~ $ sudo vi /etc/init.d/serversys
+pi@ras-B20170624:~ $ sudo chmod +x /etc/init.d/serversys
+
+这样启动改脚本用service 命令就可以
+sudo service serversys start#启动
+sudo service serversys stop#停止
+
+最后设置开机启动就好了
+
+sudo update-rc.d serversys defaults
+这样就完工了,重启树莓派就会发现led自己闪烁了，停止用sudo service serversys stop就行
+
+chkconfig --list | grep serversys

@@ -1,0 +1,88 @@
+<html>
+{% load static %}
+
+<head>
+    <script src="{% static 'javascripts/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'javascripts/bootstrap-3.3.7.min.js' %}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/bootstrap-3.3.7.min.css' %}">
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var i = 0;
+            var timer = null;
+            $(".btn-success").click(function(){
+                $.get('/data?get=on', function(){
+                    $("#counter").html('已开始');
+                    timer = setInterval(function(){
+                        $.get('/data?recv', function(data){
+                            var result = JSON.parse(data);
+                            {#$("#s").html("当前土壤湿度：" + result['s'] + " (1为缺水，0为正常）");#}
+                            {#$("#g").html("当前光照：" + result['g'] + "（1为缺光，0为光照充足）");#}
+                            {#$("#t").html("当前温度：" + result['t'] + " ℃");#}
+                            {#$("#h").html("当前湿度：" + result['h'] + " RH ");#}
+                            {#$("#a").html("当前温度BMP085：" + result['Temp'] + " ℃");#}
+                            {#$("#b").html("当前大气压强：" + result['Pressure'] + " Pa ");#}
+                            {#$("#c").html("当前海平面高度：" + result['Altitude']);#}
+                            $("#d").html("读取到卡的数据：" + result['Sealevel_Pressure']);
+                        });
+                    }, 1000);
+                })
+            });
+            $(".btn-danger").click(function(){
+                $.get('/data?get=off', function(){
+                    $("#counter").html('已关闭');
+                    clearInterval(timer);
+                })
+            });
+            $(".read").click(function(){
+                $.get('/data?get=read', function(){
+                    $("#e").html("读取到卡的数据：" + result['rade_data']);
+                    clearInterval(timer);
+                })
+            });
+            $(".write").click(function(){
+                $.get('/data?get=write', function(){
+                    $("#counter").html('已写入');
+                    clearInterval(timer);
+                })
+            });
+            $(".write").click(function(){
+                $.get('/data?get=write', function(){
+                    $("#counter").html('已写入');
+                    clearInterval(timer);
+                })
+            });
+        });
+    </script>
+</head>
+
+<body>
+{#    <h1 id="s">当前土壤湿度：{{ s }}</h1>#}
+{#    <h1 id="g">当前环境光照：{{ g }}</h1>#}
+{#    <h1 id="t">当前温度：{{ t }}</h1>#}
+{#    <h1 id="h">当前湿度：{{ h }}</h1>#}
+{#    <h1 id="a">当前温度BMP085：{{ Temp }}</h1>#}
+{#    <h1 id="b">当前大气压强：{{ Pressure }}</h1>#}
+{#    <h1 id="c">当前海平面高度：{{ Altitude }}</h1>#}
+    <h1 id="d">读取到卡的数据：{{ Sealevel_Pressure }}</h1>
+{#    <h1 id="e">读取到卡的数据：{{ rade_data }}</h1>#}
+    <button class="btn btn-success">开始工作，打开指示灯</button>
+    <button class="btn btn-danger">停止工作，打开指示灯</button>
+{#    <button class="btn read">读卡</button>#}
+{#    <button class="btn write">写卡</button>#}
+{#    <fieldset style="width:500px;">#}
+{#	<!--form表单的action属性规定当提交表单时，向何处发送表单数据，method属性指明表单的提交方式，分为get和post，默认为get-->#}
+{#	<form action="/data?get=write" method="Get">#}
+{##}
+{#        请输入写卡内容：#}
+{#		<textarea name="note" cols="34" rows="5"></textarea>#}
+{#	<!--表单结束-->#}
+{#        <input type="submit" value="提交(提交按钮)">#}
+{#    </form>#}
+
+</fieldset>
+
+
+</body>
+</html>

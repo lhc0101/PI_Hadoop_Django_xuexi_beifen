@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset=UTF-8>
+    <tit1e>用户设备列表 <a href="{% url 'add' %}?next={{ request.path }}">添加设备</a></tit1e>
+    <h1></h1>
+</head>
+<link rel="stylesheet" type="text/css" href="{% static 'stylesheets/index_work.css' %}">
+    <body>
+    <style type="text/css">
+    h2{text-align: center;}
+    div{border: 1px solid red;width: 600px;height: 400px;style-size: 450px;}
+</style>
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>设备ID</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+        <tbody>
+        {% for history in list_shebei%}
+            <tr>
+            <td>{{ history.shebieid}}</td>
+            <td>
+                <a href="/delete_shebei/?id={{ history.shebieid }}">删除</a>
+                <a href="/edit_shebei/?id={{ history.shebieid }}">编辑</a>
+            </td>
+            </tr>
+        {% endfor %}
+
+            </tbody>
+        </table>
+    </body>
+
+</html>

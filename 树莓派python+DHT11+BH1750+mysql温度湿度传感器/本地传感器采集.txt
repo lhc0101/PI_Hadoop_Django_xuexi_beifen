@@ -1,0 +1,11 @@
+数据库脚本初始化：
+truncate table by_humiture_sensor;
+
+ALTER TABLE `by_humiture_sensor`
+MODIFY COLUMN `HIO`  varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '环境干扰:0-自然环境;1-空调或人工;2-仿真数据' AFTER `t_mm`;
+
+配置温度湿度传感器
+##DHT11地址   channel = 23
+
+配置光照强度传感器
+##BH1750地址  __DEV_ADDR=0x23

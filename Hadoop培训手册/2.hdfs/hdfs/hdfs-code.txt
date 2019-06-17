@@ -1,0 +1,83 @@
+
+写入文件 （代码）
+import org.apache.hadoop.conf.Configuration;  
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.Path;
+ 
+public class Chapter3 {    
+        public static void main(String[] args) { 
+                try {
+                        Configuration conf = new Configuration();  
+                        conf.set("fs.defaultFS","hdfs://ylitech:9000");
+                        conf.set("fs.hdfs.impl","org.apache.hadoop.hdfs.DistributedFileSystem");
+                        FileSystem fs = FileSystem.get(conf);
+                        byte[] buff = "Hello world".getBytes(); // 要写入的内容
+                        String filename = "test"; //要写入的文件名
+                        FSDataOutputStream os = fs.create(new Path(filename));
+                        os.write(buff,0,buff.length);
+                        System.out.println("Create:"+ filename);
+                        os.close();
+                        fs.close();
+                } catch (Exception e) {  
+                        e.printStackTrace();  
+                }  
+        }  
+}
+
+判断文件是否存在 （代码）
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+ 
+public class Chapter3 {
+        public static void main(String[] args) {
+                    try {
+                            String filename = "test";
+ 
+                            Configuration conf = new Configuration();
+                            conf.set("fs.defaultFS","hdfs://ylitech:9000");
+                            conf.set("fs.hdfs.impl","org.apache.hadoop.hdfs.DistributedFileSystem");
+                            FileSystem fs = FileSystem.get(conf);
+                            if(fs.exists(new Path(filename))){
+                                    System.out.println("文件存在");
+                            }else{
+                                    System.out.println("文件不存在");
+                            }
+                            fs.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+        }
+} 
+
+读取文件 （代码）
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+ 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.FSDataInputStream;
+ 
+public class Chapter3 {
+        public static void main(String[] args) {
+                try {
+                        Configuration conf = new Configuration();
+                        conf.set("fs.defaultFS","hdfs://ylitech:9000");
+                        conf.set("fs.hdfs.impl","org.apache.hadoop.hdfs.DistributedFileSystem");
+                        FileSystem fs = FileSystem.get(conf);
+                        Path file = new Path("test"); 
+                        FSDataInputStream getIt = fs.open(file);
+                        BufferedReader d = new BufferedReader(new InputStreamReader(getIt));
+                        String content = d.readLine(); //读取文件一行
+                        System.out.println(content);
+                        d.close(); //关闭文件
+                        fs.close(); //关闭hdfs
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+        }
+}

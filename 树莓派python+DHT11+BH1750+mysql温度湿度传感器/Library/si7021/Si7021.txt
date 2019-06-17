@@ -1,0 +1,18 @@
+﻿Si7021 i2c
+
+pip install Si7021
+
+git clone https://github.com/herm/Si7021
+python setup.py install
+
+If you have a sensor connected to I2C bus 1, you may run
+
+from si7021 import Si7021
+from time import sleep
+from smbus import SMBus
+sensor = Si7021(SMBus(1))
+print("%.1f %%RH, %.1f °C" % sensor.read())
+sensor.heater_mA = 50
+sleep(10)
+print("%.1f %%RH, %.1f °C" % sensor.read())
+sensor.heater_mA = 0

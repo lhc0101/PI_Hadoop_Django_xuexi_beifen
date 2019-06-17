@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+<head>
+    <body style="background-image: url({% static 'b3.jpg' %});background-size:100% 250%;">
+<body>
+    <meta charset="UTF-8">
+    <title>登录系统</title>
+    <style type ="text/css">
+    #i1{
+      margin-top:10px;
+    }
+    #i2{
+      margin-top:10px;
+    }
+    #i3{
+      margin-top:20px;
+      margin-left:90px;
+      width:120px;
+      height:30px;
+    }
+    </style>
+</head>
+<body>
+<div class="col-md-6" role="main">
+    <h2>请输入用户名和密码进行登录</h2>
+</div>
+<form>
+    *用户名：
+    <input id="i1"type="text">
+    <br/>
+    &#160;&#160;&#160;&#160;*密码：
+    <input id="i2"type="password">
+    <br/>
+    <input id="i3"type="button"value="登录" onclick="t1()">
+</form>
+<h3  style="color:red;">--新用户注册</h3>
+</body>
+</html>

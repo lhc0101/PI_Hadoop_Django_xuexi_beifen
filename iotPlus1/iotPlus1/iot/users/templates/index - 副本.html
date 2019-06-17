@@ -1,0 +1,134 @@
+<!doctype html>
+{% load static %}
+<html>
+<head>
+    <script src="{% static 'javascripts/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'javascripts/bootstrap-3.3.7.min.js' %}" type="text/javascript"></script>
+    <meta charset="UTF-8">
+    <title>'I'植物保姆</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/common.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/main.css' %}">
+    <script src="{% static 'javascripts/modernizr.min.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var i = 0;
+            var timer = null;
+            $(".btn-success").click(function(){
+                $.get('/data?get=on', function(){
+                    $("#counter").html('已开始');
+                    timer = setInterval(function(){
+                        $.get('/data?recv', function(data){
+                            var result = JSON.parse(data);
+                            $("#s").html("当前土壤湿度：" + result['s'] + " (1为缺水，0为正常）");
+                            $("#g").html("当前光照：" + result['g'] + "（1为缺光，0为光照充足）");
+                            $("#t").html("当前温度：" + result['t'] + " ℃");
+                            $("#h").html("当前湿度：" + result['h'] + " RH ");
+                        });
+                    }, 1000);
+                })
+            });
+            $(".btn-danger").click(function(){
+                $.get('/data?get=off', function(){
+                    $("#counter").html('已关闭');
+                    clearInterval(timer);
+                })
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="topbar-wrap white">
+    <div class="topbar-inner clearfix">
+        <div class="topbar-logo-wrap clearfix">
+            <h1 class="topbar-logo none"><a href="index.html" class="navbar-brand">首页</a></h1>
+            <ul class="navbar-list clearfix">
+                <li><a class="on" href="index.html">首页</a></li>
+            </ul>
+        </div>
+        <div class="top-info-wrap">
+            <ul class="top-info-list clearfix">
+{#                <li><a href="#">管理员</a></li>#}
+{#                <li><a href="#">修改密码</a></li>#}
+{#                <li><a href="{% url 'login' %}">退出</a></li>#}
+
+
+                <li>您已登录，欢迎您：{{ user.username }}</li>
+                <li><a href="{% url 'logout' %}?next={{ request.path }}">注销登录</a></li>
+                <li><a href="{% url 'password_change' %}?next={{ request.path }}">修改密码</a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container clearfix">
+    <div class="sidebar-wrap">
+        <div class="sidebar-title">
+            <h1>菜单</h1>
+        </div>
+        <div class="sidebar-content">
+            <ul class="sidebar-list">
+                <li>
+                    <a href="#"><i class="icon-font">&#xe003;</i>常用操作</a>
+                    <ul class="sub-menu">
+                        <li><a href="#"><i class="icon-font">&#xe008;</i>植物当前状态数据</a></li>
+                        <li><a href="design.html"><i class="icon-font">&#xe005;</i>数据分析</a></li>
+                        <li><a href="water.html"><i class="icon-font">&#xe006;</i>给植物浇水</a></li>
+                        <li><a href="detail.html"><i class="icon-font">&#xe006;</i>小贴士</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="icon-font">&#xe018;</i>系统管理</a>
+                    <ul class="sub-menu">
+                        <li><a href="add.html"><i class="icon-font">&#xe006;</i>设备列表</a></li>
+                        <li><a href="system.html"><i class="icon-font">&#xe017;</i>监控</a></li>
+                        <li><a href="system.html"><i class="icon-font">&#xe046;</i>告警</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--/sidebar-->
+    <div class="main-wrap">
+        <div class="crumb-wrap">
+            <div class="crumb-list"><i class="icon-font">&#xe06b;</i><span>欢迎使用'I'植物保姆，可爱的植物将会每天与你的健康一同成长。</span></div>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h1>快捷操作</h1>
+            </div>
+            <button class="btn btn-success">开始采集数据</button>
+            <button class="btn btn-danger">停止采集数据</button>
+        </div>
+        <div class="result-wrap">
+            <div class="result-title">
+                <h1 style="color:green;">植物当前状态数据:</h1>
+            </div>
+            <div class="result-content">
+                <ul class="sys-info-list">
+                      <ul class="list-group">
+                        <li class="list-group-item"><h3 id="s">当前土壤湿度：{{ s }}</h3></li>
+                        <li class="list-group-item"><h3 id="g">当前土壤光照：{{ g }}</h3></li>
+                        <li class="list-group-item"><h3 id="t">当前温度：{{ t }}</h3></li>
+                        <li class="list-group-item"><h3 id="h">当前湿度：{{ h }}</h3></li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+        <div >
+            <div class="result-title">
+                <h1 style="color:green;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;植物当前状态图表:</h1>
+            </div>
+            <div class="result-content">
+              <div style="margin: auto;width:800px;height:300px;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <iframe src="http://127.0.0.1:8000/pyecharts" width="1000" height="500" frameborder="0" name="1"
+                            scrolling="no">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/main-->
+</div>
+</body>
+</html>
