@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+migrations
+node_modules
+package-lock.json
+*.iml
+.gradle
+local.properties
+.DS_Store
+captures
+.externalNativeBuild
+.idea
+build
